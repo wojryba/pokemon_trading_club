@@ -1,0 +1,20 @@
+<div class="form-group">
+  <form novalidate [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <label>Email:
+      <input class="form-control" type="text" formControlName="Email" />
+    </label>
+    <div *ngIf="form.get('Email').touched">
+      <p *ngIf="form.get('Email').hasError('email')">Email needs to be a valid email adress!</p>
+      <p *ngIf="form.get('Email').hasError('required')">Email is required!</p>
+    </div>
+
+    <label>Password:
+      <input class="form-control" type="text" formControlName="Password" />
+    </label>
+    <div *ngIf="form.get('Password').touched">
+      <p *ngIf="form.get('Password').hasError('required')">Password is required!</p>
+    </div>
+
+    <button class="btn btn-primary" [disabled]="form.invalid" type="submit">Log In</button>
+  </form>
+</div>
