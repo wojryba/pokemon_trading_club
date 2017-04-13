@@ -6,6 +6,7 @@ const path = require('path');
 const User = require('./userModel');
 const passport= require('passport');
 require('./passport');
+require('dotenv').config();
 
 const port = process.env.PORT || 3000;
 

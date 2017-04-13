@@ -1,3 +1,38 @@
-<p>
-  settings works!
-</p>
+<div>
+  <h1>Your Provile:</h1>
+  <h4>Name: <span>{{profileInfo.name}}</span></h4>
+  <h4>Email: <span>{{profileInfo.email}}</span></h4>
+  <h4>City: <span *ngIf="profileInfo.city else emptyCity">{{profileInfo.city}}</span></h4>
+  <h4>State: <span *ngIf="profileInfo.state else emptyState">{{profileInfo.state}}</span></h4>
+</div>
+<ng-template #emptyCity><span>not given</span></ng-template>
+<ng-template #emptyState><span>not given</span></ng-template>
+
+<flash-messages></flash-messages>
+<div>
+  <h1>Updata Profile:</h1>
+  <form novalidate [formGroup]="UpdateForm" (ngSubmit)="updateProfile(UpdateForm)" >
+    <label>City:
+      <input class="form-control" type="text" formControlName="city" />
+    </label>
+    <label>State:
+      <input class="form-control" type="text" formControlName="state" />
+    </label>
+    <button class="btn btn-info" type="submit">Update your profile</button>
+  </form>
+</div>
+
+<div>
+  <h1>Change Password:</h1>
+  <form novalidate [formGroup]="changeForm" (ngSubmit)="changePassword(changeForm)">
+    <label>Current Password:
+      <input class="form-control" type="text" formControlName="currentPassword" />
+        <p *ngIf="changeForm.get('currentPassword').touched && changeForm.get('currentPassword').hasError('required')">You must input your current password!</p>
+    </label>
+    <label>New Password:
+      <input class="form-control" type="text" formControlName="newPassword" />
+      <p *ngIf="changeForm.get('newPassword').touched && changeForm.get('newPassword').hasError('required')">You must input new password!</p>
+    </label>
+    <button class="btn btn-info" [disabled]="changeForm.invalid" type="submit">Change Password</button>
+  </form>
+</div>

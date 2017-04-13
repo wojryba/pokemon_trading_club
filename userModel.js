@@ -15,7 +15,9 @@ const UserSchema = new Schema({
     required: true
   },
   hash: String,
-  salt: String
+  salt: String,
+  city: String,
+  state: String
 });
 
 UserSchema.methods.setPassword = function (password) {
@@ -36,6 +38,8 @@ UserSchema.methods.generateJWT = function () {
     _id: this._id,
     name: this.name,
     email: this.email,
+    city: this.city,
+    state: this.state,
     exp: parseInt(expiry.getTime() / 1000)
   }, process.env.SECRET);
 }

@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http, RequestOptions  } from '@angular/http';
 import { RouterModule, Routes} from '@angular/router';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 
 import { AppComponent } from './app.component';
@@ -15,16 +17,24 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
 import { ApiService } from './services/api.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'settings', component: SettingsComponent},
-  {path: 'allBooks', component: AllBooksComponent},
-  {path: 'myBooks', component: MyBooksComponent}
+  {path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
+  {path: 'allBooks', component: AllBooksComponent, canActivate: [AuthGuardService]},
+  {path: 'myBooks', component: MyBooksComponent, canActivate: [AuthGuardService]}
 ];
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig(), http, options);
+}
+
+
 
 @NgModule({
   declarations: [
@@ -42,9 +52,15 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FlashMessagesModule
   ],
-  providers: [ApiService],
+  providers: [ApiService, AuthService, AuthGuardService,
+    {
+       provide: AuthHttp,
+       useFactory: authHttpServiceFactory,
+       deps: [Http, RequestOptions]
+     }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

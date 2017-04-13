@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +12,8 @@ import { ApiService } from '../../services/api.service';
 export class RegisterComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private api: ApiService) { }
+  constructor(private fb: FormBuilder, private api: ApiService, private router: Router,
+  private _flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -27,11 +30,18 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.value);
     this.api.register(this.form.value).subscribe(
-      response => console.log(response),
+      response => {
+        let token = JSON.parse(response['_body']);
+        token = token.token;
+        localStorage.setItem('token', JSON.stringify(token));
+        this._flashMessagesService.show('Registration succesfull!', { cssClass: 'alert-success' } );
+      },
       error => console.log(error),
-      () => console.log('completed')
+      () => {
+        this.form.reset();
+        setTimeout(() => { this.router.navigate(['/settings']); }, 1000);
+      }
     );
   }
 
