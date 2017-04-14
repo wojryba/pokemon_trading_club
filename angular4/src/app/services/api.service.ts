@@ -71,4 +71,32 @@ export class ApiService {
 
     return this.authHttp.post('http://localhost:3000/api/exchangePokemon', data, options);
   }
+
+  getTradeRequests() {
+    return this.authHttp.get('http://localhost:3000/api/getRequests');
+  }
+
+  rejectYours(request) {
+    const data = JSON.stringify({ request });
+    const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
+    const options = new RequestOptions({ headers: headers});
+
+    return this.authHttp.post('http://localhost:3000/api/rejectYours', data, options);
+  }
+
+  rejectOther(request) {
+    const data = JSON.stringify({ request });
+    const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
+    const options = new RequestOptions({ headers: headers});
+
+    return this.authHttp.post('http://localhost:3000/api/rejectOther', data, options);
+  }
+
+  acceptRequest(request) {
+    const data = JSON.stringify({ request });
+    const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
+    const options = new RequestOptions({ headers: headers});
+
+    return this.authHttp.post('http://localhost:3000/api/acceptRequest', data, options);
+  }
 }

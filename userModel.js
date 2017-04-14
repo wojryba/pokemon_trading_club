@@ -18,7 +18,9 @@ const UserSchema = new Schema({
   salt: String,
   city: String,
   state: String,
-  pokemons: {type: Array, default: []}
+  pokemons: {type: Array, default: []},
+  myTradeRequests: {type: Array, default: []},
+  requestsForMe: {type: Array, default: []}
 });
 
 UserSchema.methods.setPassword = function (password) {

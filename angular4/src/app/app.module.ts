@@ -16,11 +16,12 @@ import { AllPokemonsComponent } from './components/all-pokemons/all-pokemons.com
 import { MyPokemonsComponent } from './components/my-pokemons/my-pokemons.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { ModalWindowComponent } from './components/modal-window/modal-window.component';
+import { TradeRequestsComponent } from './components/trade-requests/trade-requests.component';
 
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
-import { ModalWindowComponent } from './components/modal-window/modal-window.component';
 
 
 const appRoutes: Routes = [
@@ -48,7 +49,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     NavbarComponent,
     AllPokemonsComponent,
     MyPokemonsComponent,
-    ModalWindowComponent
+    ModalWindowComponent,
+    TradeRequestsComponent
   ],
   imports: [
     BrowserModule,

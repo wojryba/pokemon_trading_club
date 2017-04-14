@@ -1,0 +1,29 @@
+<div class="container">
+  <button (click)="openYourRequests()">Your trade requests.</button>
+  <button (click)="openRequestsForMe()">Trade requests for you.</button>
+  <div *ngIf="yourRequests">
+    <h1>Requests you made:</h1>
+    <div *ngFor="let request of myRequests, let i = index">
+      <div>
+        <h4>You offer:</h4>
+        <img src="{{request.proposed.pokemonImg}}" alt="{{request.proposed.pomekonName}}"/>
+        <h4>For:</h4>
+        <img src="{{request.wanted.pokemonImg}}" alt="{{request.wanted.pomekonName}}"/>
+        <i (click)="rejectRequest(i, 'your')" class="fa fa-times" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="requestsForMe">
+    <h1>Requests made for you:</h1>
+    <div *ngFor="let request of requestsMadeForMe, let i = index">
+      <div>
+        <h4>Offering:</h4>
+        <img src="{{request.proposed.pokemonImg}}" alt="{{request.proposed.pomekonName}}"/>
+        <h4>For:</h4>
+        <img src="{{request.wanted.pokemonImg}}" alt="{{request.wanted.pomekonName}}"/>
+        <i (click)="acceptRequest(i)" class="fa fa-check" aria-hidden="true"></i>
+        <i (click)="rejectRequest(i, 'forYou')" class="fa fa-times" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</div>

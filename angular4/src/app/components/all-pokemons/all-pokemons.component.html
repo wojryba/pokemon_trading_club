@@ -1,5 +1,8 @@
 <div class="container">
   <div>
+    <app-trade-requests (traded)="getPokemons($evet)"></app-trade-requests>
+  </div>
+  <div>
     <div *ngFor="let pokemon of pokemons, let i = index">
       <div *ngFor="let poke of pokemon.pokemons, let j = index">
         <img src="{{poke.sprites.front_default}}" alt="{{poke.name}}" />

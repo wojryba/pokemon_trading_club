@@ -40,16 +40,20 @@ export class ModalWindowComponent implements OnInit {
   choosePokemon(i) {
     let exchange = JSON.parse(localStorage.getItem('exchange'));
     exchange.proposed = {
-      index: i
+      pokemonIndex: i,
+      pokemonName: this.pokemons[i].name,
+      pokemonImg: this.pokemons[i].sprites.front_default
     }
     this.api.exchangePokemons(exchange).subscribe(
       response => {
-        console.log(JSON.parse(response['_body']));
+        console.log(response['_body']);
       },
       error => console.log(error),
-      () => console.log('completed')
+      () => {
+        console.log('completed');
+        this.dialog.close();
+      }
     )
-    // this.dialog.close()
   }
 
 }

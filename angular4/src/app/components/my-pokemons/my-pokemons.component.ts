@@ -21,12 +21,15 @@ export class MyPokemonsComponent implements OnInit {
     });
 
     this.getMyPokemons();
+    this.disable = false;
   }
 
   getMyPokemons() {
+    console.log('traded');
     this.api.getMyPokemons().subscribe(
       response => {
         this.pokemons = JSON.parse(response['_body']);
+        console.log(this.pokemons)
       },
       error => console.log(error),
       () => console.log('completed')
@@ -38,13 +41,13 @@ export class MyPokemonsComponent implements OnInit {
     this.api.addPokemon(this.form.value).subscribe(
       response => {
         const pokemon = JSON.parse(response['_body']);
-        if (pokemon.statusCode === 404) {
-          this._flashMessagesService.show('Wrong Pokemon Name!', { cssClass: 'alert-danger' });
-        }
         this.pokemons = pokemon;
       },
       error => {
-
+        console.log(error);
+        this._flashMessagesService.show('Wrong Pokemon Name!', { cssClass: 'alert-danger' });
+        this.disable = false;
+        this.form.reset();
       },
       () => {
         console.log('completed')

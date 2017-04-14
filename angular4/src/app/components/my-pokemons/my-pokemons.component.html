@@ -1,5 +1,8 @@
 <div class="container">
   <div>
+    <app-trade-requests (traded)="getMyPokemons($evet)"></app-trade-requests>
+  </div>
+  <div>
     <form novalidate [formGroup]="form" (ngSubmit)="addPokemon(form)">
       <label>Add a new Pokemon!
         <input placeholder="Enter Pokemon name!" class="form-control" type="text" formControlName="name" />

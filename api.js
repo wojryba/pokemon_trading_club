@@ -102,7 +102,7 @@ router.post('/addPokemon', authCheck, (req, res) => {
       res.send(user.pokemons);
     });
   }).catch( error => {
-      res.send(error);
+      res.status(404).send(error);
     });
 })
 
@@ -137,14 +137,215 @@ router.get('/getAll', authCheck, (req, res) => {
         return p;
       }
     });
-
-    res.send(pokemons);
+    if (pokemons[0] === undefined) {
+      return res.status(404).send('Not found');
+    } else {
+      return res.send(pokemons);
+    }
   })
 })
 
 router.post('/exchangePokemon', authCheck, (req, res) => {
-  console.log(req.body)
-  res.send('be');
+  let b = false;
+  // console.log(req.user)
+  User.findOne({_id: req.user._id}, (err, userM) => {
+    if (err) {
+      console.log(err);
+    }
+    if (userM.pokemons[req.body.exchange.proposed.pokemonIndex].name === req.body.exchange.proposed.pokemonName) {
+      req.body.exchange.proposed.user = req.user._id;
+      userM.myTradeRequests.push(req.body.exchange);
+      userM.save().then(() => {
+        if (b === true) {
+          return res.send('request made');
+        } else {
+          b = true;
+        }
+      });
+    } else {
+      return res.send('oops');
+    };
+  })
+
+  User.findOne({_id: req.body.exchange.wanted.user}, (err, userO) => {
+    if (err) {
+      console.log(err);
+    }
+    if (userO.pokemons[req.body.exchange.wanted.pokemonIndex].name === req.body.exchange.wanted.pokemonName) {
+      req.body.exchange.proposed.user = req.user._id;
+      userO.requestsForMe.push(req.body.exchange);
+      userO.save().then(() => {
+        if (b === true) {
+          return res.send('request made');
+        } else {
+          b = true;
+        }
+      });
+    } else {
+      return res.send('oops');
+    };
+  })
+})
+
+router.get('/getRequests', authCheck, (req, res) => {
+  let b = false;
+  User.findOne({_id: req.user._id}, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.send(err);
+    }
+    const requests = {
+      my: user.myTradeRequests,
+      forMe: user.requestsForMe
+    };
+    res.send(requests);
+  })
+})
+
+router.post('/rejectYours', authCheck, (req, res) => {
+  let b = false;
+  User.findOne({_id: req.body.request.proposed.user}, (err, userM) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+
+    userM.myTradeRequests = userM.myTradeRequests.filter(val => {
+      if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+        return val;
+      }
+    })
+    userM.save().then(() => {
+      if (b === true) {
+        return res.send('request rejected');
+      } else {
+        b = true;
+      }
+    });
+  })
+
+  User.findOne({_id: req.body.request.wanted.user}, (err, userO) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    userO.requestsForMe = userO.requestsForMe.filter(val => {
+      if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+        return val;
+      }
+    })
+    userO.save().then(() => {
+      if (b === true) {
+        return res.send('request rejected');
+      } else {
+        b = true;
+      }
+    });
+  });
+})
+
+router.post('/rejectOther', authCheck, (req, res) => {
+  let b = false;
+
+  // find the current logged user and filter his requestsForMe array
+  User.findOne({_id: req.user._id}, (err, userM) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    userM.requestsForMe = userM.requestsForMe.filter(val => {
+      if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+        return val;
+      }
+    });
+    userM.save().then(() => {
+      if (b === true) {
+        return res.send('request rejected');
+      } else {
+        b = true;
+      }
+    });
+  });
+
+  // find user that made a request for current user and filter his request array
+  User.findOne({_id: req.body.request.proposed.user}, (err, userO) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    userO.myTradeRequests = userO.myTradeRequests.filter(val => {
+      if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+        return val;
+      }
+    });
+    userO.save().then(() => {
+      if (b === true) {
+        return res.send('request rejected');
+      } else {
+        b = true;
+      }
+    });
+  })
+})
+
+router.post('/acceptRequest', authCheck, (req, res) => {
+  let b = false;
+  let poke1;
+  // console.log('user id', req.user._id);
+  // console.log(req.body.request);
+  User.findOne({_id: req.user._id}, (err, userM) => {
+    if (err) {
+      console.log(err);
+      return res.send(err);
+    }
+    // save pokemon to be addet to other user
+    poke = userM.pokemons[req.body.request.wanted.pokemonIndex];
+    // delete pokemon from current user
+
+    userM.pokemons.splice(req.body.request.wanted.pokemonIndex, 1);
+
+    //remove the request
+    userM.requestsForMe = userM.requestsForMe.filter(val => {
+      if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+        return val;
+      }
+    });
+
+    // find the other user
+    User.findOne({_id: req.body.request.proposed.user}, (err, userO) => {
+      if (err) {
+        console.log(err);
+        return res.send(err);
+      }
+      // remove the trade request
+      userO.myTradeRequests = userO.myTradeRequests.filter(val => {
+        if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+          return val;
+        }
+      });
+
+      //find and remove pokoemon
+      poke1 = userO.pokemons[req.body.request.proposed.pokemonIndex];
+
+      // delet the pokemon from user
+      userO.pokemons.splice([req.body.request.proposed.pokemonIndex], 1);
+
+
+
+
+      // add the new pokemon to the other user
+      userO.pokemons.push(poke);
+
+      // add the traded pokemon to the current user
+      userM.pokemons.push(poke1);
+      userM.save();
+      userO.save().then(() => {
+        res.send('change accepted');
+      });
+
+    })
+
+  })
 })
 
 
