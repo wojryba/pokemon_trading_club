@@ -37,9 +37,10 @@ router.post('/register', (req, res) => {
     if (err) {
       return res.send(err);
     }
+  }).then(() => {
     const token = user.generateJWT();
     const t = {'token': token};
-    res.send(t);
+    return res.send(t);
   });
 })
 
