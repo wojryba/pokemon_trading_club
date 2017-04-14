@@ -3,8 +3,8 @@ import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { ApiService } from '../../services/api.service';
 
-export class poke extends BSModalContext {
-  constructor() {
+export class Poke extends BSModalContext {
+  constructor(public num1: number, public num2: number) {
     super();
   }
 }
@@ -16,10 +16,10 @@ export class poke extends BSModalContext {
 })
 export class ModalWindowComponent implements OnInit {
   pokemons: any;
-  context: poke;
+  context: Poke;
 
   constructor(private api: ApiService,
-  public dialog: DialogRef<poke>) {
+  public dialog: DialogRef<Poke>) {
     this.context = dialog.context;
   }
 
@@ -38,12 +38,12 @@ export class ModalWindowComponent implements OnInit {
   }
 
   choosePokemon(i) {
-    let exchange = JSON.parse(localStorage.getItem('exchange'));
+    const exchange = JSON.parse(localStorage.getItem('exchange'));
     exchange.proposed = {
       pokemonIndex: i,
       pokemonName: this.pokemons[i].name,
       pokemonImg: this.pokemons[i].sprites.front_default
-    }
+    };
     this.api.exchangePokemons(exchange).subscribe(
       response => {
         console.log(response['_body']);
@@ -53,7 +53,7 @@ export class ModalWindowComponent implements OnInit {
         console.log('completed');
         this.dialog.close();
       }
-    )
+    );
   }
 
 }

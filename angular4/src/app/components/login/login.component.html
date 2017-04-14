@@ -1,23 +1,35 @@
-<div class=container>
-  <div class="form-group">
+<div class="container">
+  <div class="leftForms">
     <flash-messages></flash-messages>
-    <form class="form-horizontal" novalidate [formGroup]="form" (ngSubmit)="onSubmit(form)">
-      <label>Email:
+    <form class="form-group" novalidate [formGroup]="form" (ngSubmit)="onSubmit(form)">
+      <label class="control-label">Email:
         <input class="form-control" type="text" formControlName="Email" />
+        <div *ngIf="form.get('Email').touched">
+          <p *ngIf="form.get('Email').hasError('email')">Email needs to be a valid email adress!</p>
+          <p *ngIf="form.get('Email').hasError('required')">Email is required!</p>
+        </div>
       </label>
-      <div *ngIf="form.get('Email').touched">
-        <p *ngIf="form.get('Email').hasError('email')">Email needs to be a valid email adress!</p>
-        <p *ngIf="form.get('Email').hasError('required')">Email is required!</p>
-      </div>
+      <br />
 
-      <label>Password:
+      <label class="control-label">Password:
         <input class="form-control" type="text" formControlName="Password" />
+        <div *ngIf="form.get('Password').touched">
+          <p *ngIf="form.get('Password').hasError('required')">Password is required!</p>
+        </div>
       </label>
-      <div *ngIf="form.get('Password').touched">
-        <p *ngIf="form.get('Password').hasError('required')">Password is required!</p>
-      </div>
+      <br />
 
       <button class="btn btn-primary" [disabled]="form.invalid" type="submit">Log In</button>
+      <button class="btn btn-primary" [routerLink]="['/register']">Register</button>
     </form>
   </div>
+
+  <div class="Hide">
+    <h1>This is login form.</h1>
+    <h3>You need to log in to trade pokemons!</h3>
+    <h3>If you're not registered yet,</h3>
+    <h3>Click the register button!</h3>
+  </div>
+
+  <img class="downImg" src="../../../assets/login.png" />
 </div>

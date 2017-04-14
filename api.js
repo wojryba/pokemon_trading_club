@@ -134,6 +134,7 @@ router.get('/getAll', authCheck, (req, res) => {
         let p = {};
         p._id = user._id;
         p.pokemons = user.pokemons;
+        p.name = user.name;
         return p;
       }
     });

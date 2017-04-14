@@ -1,0 +1,17 @@
+.container {
+  text-align: left;
+}
+
+.form-group {
+  font-size: 1.4em;
+}
+
+.control-label {
+  min-height: 103px;
+  width: 35%;
+  margin-bottom: 0px;
+}
+
+.btn {
+  width: 16%;
+}

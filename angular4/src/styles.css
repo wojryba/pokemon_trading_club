@@ -2,3 +2,125 @@
 .form-group p {
   color: red;
 }
+
+.container {
+  position: relative;
+  text-align: center;
+}
+
+.info img {
+  width: 50%;
+  height: auto;
+}
+
+.form-group {
+  margin-right: 0;
+}
+
+.Hide {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  width: 40%;
+}
+
+
+.downImg {
+  position: absolute;
+  top: 120%;
+  right: 40%;
+}
+
+.downImgR {
+  position: absolute;
+  top: 120%;
+  right: 2%;
+  height: auto;
+}
+
+poke {
+  background-color: red;
+}
+
+
+.pokemons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 80%;
+  margin: 5%;
+}
+
+.pokemonWrapper {
+  display: inline-flex;
+  margin: 1%;
+}
+
+.pokemon {
+  margin: 10px;
+  border: 1px solid  #ffccb3;
+  border-radius: 3%;
+}
+
+i {
+  float: right;
+  margin-right: 5%;
+  margin-top: 5%;
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    text-align: center;
+  }
+
+  .info {
+    margin: 10px;
+  }
+
+  .info img {
+    width: 90%;
+    height: auto;
+  }
+
+  .container {
+    margin-bottom: 10px;
+  }
+
+  .form-group {
+    text-align: center;
+    font-size: 1em;
+  }
+
+  .control-label {
+    min-width: 90%;
+  }
+
+  .btn-primary {
+    min-width: 150px;
+    margin: 5px;
+  }
+
+  .Hide {
+    visibility: hidden;
+    display: none;
+  }
+
+  .downImg {
+    right: 5%;
+    top: 100%;
+  }
+
+  .downImgR {
+    position: absolute;
+    top: 100%;
+    right: 1%;
+  }
+
+  .pokemons {
+    display: block;
+  }
+
+  .pokemonWrapper {
+    display: block;
+  }
+}

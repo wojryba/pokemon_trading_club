@@ -1,28 +1,44 @@
-<div class="container">
-  <button (click)="openYourRequests()">Your trade requests.</button>
-  <button (click)="openRequestsForMe()">Trade requests for you.</button>
+<div class="requests">
+  <button class="btn btn-warning btn-lg" (click)="openYourRequests()">Your trade requests.</button>
+  <button class="btn btn-warning btn-lg" (click)="openRequestsForMe()">Trade requests for you.</button>
   <div *ngIf="yourRequests">
     <h1>Requests you made:</h1>
+    <h3 *ngIf="myRequests.length === 0">There are none!</h3>
     <div *ngFor="let request of myRequests, let i = index">
-      <div>
-        <h4>You offer:</h4>
-        <img src="{{request.proposed.pokemonImg}}" alt="{{request.proposed.pomekonName}}"/>
-        <h4>For:</h4>
-        <img src="{{request.wanted.pokemonImg}}" alt="{{request.wanted.pomekonName}}"/>
+      <div class="request">
         <i (click)="rejectRequest(i, 'your')" class="fa fa-times" aria-hidden="true"></i>
+        <div class="left">
+          <h4>You offer:</h4>
+          <img src="{{request.proposed.pokemonImg}}" alt="{{request.proposed.pomekonName}}"/>
+          <h5>{{request.proposed.pokemonName}}</h5>
+        </div>
+
+        <div class="right">
+          <h4>For:</h4>
+          <img src="{{request.wanted.pokemonImg}}" alt="{{request.wanted.pomekonName}}"/>
+          <h5>{{request.wanted.pokemonName}}</h5>
+        </div>
+
       </div>
     </div>
   </div>
   <div *ngIf="requestsForMe">
     <h1>Requests made for you:</h1>
+    <h3 *ngIf="requestsMadeForMe.length === 0">There are none!</h3>
     <div *ngFor="let request of requestsMadeForMe, let i = index">
-      <div>
-        <h4>Offering:</h4>
-        <img src="{{request.proposed.pokemonImg}}" alt="{{request.proposed.pomekonName}}"/>
-        <h4>For:</h4>
-        <img src="{{request.wanted.pokemonImg}}" alt="{{request.wanted.pomekonName}}"/>
+      <div class="request">
         <i (click)="acceptRequest(i)" class="fa fa-check" aria-hidden="true"></i>
         <i (click)="rejectRequest(i, 'forYou')" class="fa fa-times" aria-hidden="true"></i>
+        <div class="left">
+          <h4>Offering:</h4>
+          <img src="{{request.proposed.pokemonImg}}" alt="{{request.proposed.pomekonName}}"/>
+          <h5>{{request.proposed.pokemonName}}</h5>
+        </div>
+        <div class="right">
+          <h4>For:</h4>
+          <img src="{{request.wanted.pokemonImg}}" alt="{{request.wanted.pomekonName}}"/>
+          <h5>{{request.wanted.pokemonName}}</h5>
+        </div>
       </div>
     </div>
   </div>

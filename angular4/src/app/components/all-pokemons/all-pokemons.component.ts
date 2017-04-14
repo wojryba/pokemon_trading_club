@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { Overlay } from 'angular2-modal';
-import { Modal } from 'angular2-modal/plugins/bootstrap';
-import { ModalWindowComponent } from '../modal-window/modal-window.component';
+import { Overlay, overlayConfigFactory } from 'angular2-modal';
+import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
+import { ModalWindowComponent, Poke } from '../modal-window/modal-window.component';
 import { AuthService } from '../../services/auth.service';
 import { TradeRequestsComponent } from '../trade-requests/trade-requests.component';
 
@@ -13,7 +13,8 @@ import { TradeRequestsComponent } from '../trade-requests/trade-requests.compone
   styleUrls: ['./all-pokemons.component.css']
 })
 export class AllPokemonsComponent implements OnInit {
-  @ViewChild(TradeRequestsComponent) TradeComponent:TradeRequestsComponent;
+  @ViewChild (TradeRequestsComponent)
+  TradeComponent: TradeRequestsComponent;
   pokemons: any;
 
   constructor(private api: ApiService, private auth: AuthService,
@@ -30,37 +31,38 @@ export class AllPokemonsComponent implements OnInit {
 
   getPokemons() {
     let id = this.auth.useJwtHelper();
-    id = id._id
+    id = id._id;
     this.api.getPokemons().subscribe(
       response => {
         let poke = JSON.parse(response['_body']);
+        console.log(poke);
         poke = poke.filter( val => {
           if (val && val._id !== id) {
-            return val
+            return val;
           }
-        })
+        });
         this.pokemons = poke;
       },
       error => console.log(error),
       () => console.log('completed')
-    )
+    );
   }
 
   exchangePokemon(i, j) {
-    let exchange = {
+    const exchange = {
       wanted: {
         user: this.pokemons[i]._id,
         pokemonName: this.pokemons[i].pokemons[j].name,
         pokemonIndex: j,
         pokemonImg: this.pokemons[i].pokemons[j].sprites.front_default
       }
-    }
+    };
     localStorage.setItem('exchange', JSON.stringify(exchange));
-    this.modal.open(ModalWindowComponent).then(dialog => {
+    this.modal.open(ModalWindowComponent, overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext)).then(dialog => {
       dialog.onDestroy.subscribe(
         source => this.TradeComponent.getRequests()
-      )
-    })
+      );
+    });
   }
 
 }
