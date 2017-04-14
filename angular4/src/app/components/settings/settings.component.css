@@ -1,0 +1,13 @@
+.container {
+  text-align: left;
+}
+
+.Ilabel {
+  width: 80%;
+  min-height: 90px;
+  margin-bottom: 0;
+}
+
+.Ulabel {
+  width: 80%;
+}

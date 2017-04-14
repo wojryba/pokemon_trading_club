@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
       error => console.log(error),
       () => {
         this.form.reset();
-        setTimeout(() => { this.router.navigate(['/settings']); }, 1000);
+        setTimeout(() => { this.router.navigate(['/allPokemons']); }, 1000);
       }
     );
   }

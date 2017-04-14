@@ -2,37 +2,46 @@
   <div class="form-group" [ngClass]="{'has-error':isError}" >
     <flash-messages></flash-messages>
     <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
-      <label class="control-label" for="inputError">Name:
+      <label class="control-label">Name:
         <input class="form-control"
         type="text" formControlName="Name" />
+        <div  *ngIf="form.get('Name').touched">
+          <p *ngIf="form.get('Name').hasError('required')">Name is required!</p>
+          <p *ngIf="form.get('Name').hasError('minlength')">Name needs to be ad least 3 characters long!</p>
+        </div>
       </label>
-      <div  *ngIf="form.get('Name').touched">
-        <p *ngIf="form.get('Name').hasError('required')">Name is required!</p>
-        <p *ngIf="form.get('Name').hasError('minlength')">Name needs to be ad least 3 characters long!</p>
-      </div>
+      <br />
 
-
-      <label>Email:
+      <label class="control-label">Email:
         <input class="form-control"
         type="text" formControlName="Email" />
+        <div  *ngIf="form.get('Email').touched">
+          <p *ngIf="form.get('Email').hasError('required')">Email is required!</p>
+          <p *ngIf="form.get('Email').hasError('email')">Email needs to be a valid email adress!</p>
+        </div>
       </label>
+      <br />
 
-      <div  *ngIf="form.get('Email').touched">
-        <p *ngIf="form.get('Email').hasError('required')">Email is required!</p>
-        <p *ngIf="form.get('Email').hasError('email')">Email needs to be a valid email adress!</p>
-      </div>
-
-      <label>Password:
+      <label class="control-label">Password:
         <input class="form-control"
         type="text" formControlName="Password" />
+        <div  *ngIf="form.get('Password').touched">
+          <p *ngIf="form.get('Password').hasError('required')">Password is required!</p>
+        </div>
       </label>
-
-      <div  *ngIf="form.get('Password').touched">
-        <p *ngIf="form.get('Password').hasError('required')">Password is required!</p>
-      </div>
+      <br />
 
       <button class="btn btn-primary" [disabled]="form.invalid" type="submit">Register</button>
+      <button class="btn btn-primary" [routerLink]="['/login']">Login</button>
     </form>
   </div>
-
+  <div class="Hide">
+    <h1>This is registration form.</h1>
+    <h3>You need to input a name at least 3 characters long,</h3>
+    <h3>A valid email adress,</h3>
+    <h3>And a password.</h3>
+    <br />
+    <h3>If you are registerd already, click the login botton</h3>
+  </div>
+  <img class="downImgR" src="../../../assets/register.jpg" />
 </div>

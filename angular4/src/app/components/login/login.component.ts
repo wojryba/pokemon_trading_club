@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
         this._flashMessagesService.show('Log in succesfull!', { cssClass: 'alert-success' } );
       },
       error => {
-        let message = JSON.parse(error['_body'])
+        let message = JSON.parse(error['_body']);
         message = message.message;
         console.log(message);
         if (message === 'User not found!') {
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       },
       () => {
         this.form.reset();
-        setTimeout(() => { this.router.navigate(['/settings']); }, 1000);
+        setTimeout(() => { this.router.navigate(['/allPokemons']); }, 1000);
       }
     );
   }

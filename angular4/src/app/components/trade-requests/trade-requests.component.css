@@ -1,0 +1,51 @@
+.requests {
+  border: 1px solid  #ffccb3;
+  border-radius: 5%;
+  padding: 2%;
+  width: 80%;
+  height: auto;
+  margin: auto;
+}
+
+.request {
+  border: 1px solid  #ffccb3;
+  border-radius: 5%;
+  overflow: hidden;
+  width: 80%;
+  margin: auto;
+  margin-bottom: 2%;
+}
+
+.left {
+  float: left;
+  display: block;
+  margin-left: 20%;
+}
+
+.right {
+  float: right;
+  display: block;
+  margin-right: 20%;
+}
+
+@media (max-width: 480px) {
+  .btn {
+    margin: 2%;
+  }
+
+  .requests {
+    margin: auto;
+    width: 100%
+  }
+
+  .left {
+    float: none;
+    margin: auto;
+    border-bottom: dotted 1px #ffccb3;
+  }
+
+  .right {
+    float: none;
+    margin: auto;
+  }
+}

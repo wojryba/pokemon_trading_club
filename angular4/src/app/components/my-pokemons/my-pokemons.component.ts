@@ -13,7 +13,7 @@ export class MyPokemonsComponent implements OnInit {
   disable = false;
   pokemons: any;
 
-  constructor(private _flashMessagesService: FlashMessagesService, private fb: FormBuilder, private api: ApiService) { }
+  constructor(private _flashMessagesService: FlashMessagesService,  private fb: FormBuilder, private api: ApiService) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -29,7 +29,6 @@ export class MyPokemonsComponent implements OnInit {
     this.api.getMyPokemons().subscribe(
       response => {
         this.pokemons = JSON.parse(response['_body']);
-        console.log(this.pokemons)
       },
       error => console.log(error),
       () => console.log('completed')
@@ -50,7 +49,7 @@ export class MyPokemonsComponent implements OnInit {
         this.form.reset();
       },
       () => {
-        console.log('completed')
+        console.log('completed');
         this.disable = false;
         this.form.reset();
       }
@@ -64,7 +63,7 @@ export class MyPokemonsComponent implements OnInit {
       },
       error => console.log(error),
       () => console.log('completed')
-    )
+    );
   }
 
 }

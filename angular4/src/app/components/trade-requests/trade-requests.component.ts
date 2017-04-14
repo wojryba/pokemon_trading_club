@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./trade-requests.component.css']
 })
 export class TradeRequestsComponent implements OnInit {
-  @Output() traded:EventEmitter<string> = new EventEmitter();
+  @Output () traded: EventEmitter<string> = new EventEmitter();
 
   yourRequests = false;
   requestsForMe = false;
@@ -46,7 +46,7 @@ export class TradeRequestsComponent implements OnInit {
      if (this.requestsForMe) {
        this.requestsForMe = false;
      } else {
-       this.yourRequests = false
+       this.yourRequests = false;
        this.requestsForMe = true;
      }
    }
@@ -61,9 +61,9 @@ export class TradeRequestsComponent implements OnInit {
        },
        error => console.log(error),
        () => {
-        console.log('completed')
+        console.log('completed');
        }
-     )
+     );
    }
 
    rejectRequest(i, f) {
@@ -76,10 +76,10 @@ export class TradeRequestsComponent implements OnInit {
          },
          error => console.log(error),
          () => {
-           console.log('completed')
+           console.log('completed');
            this.getRequests();
          }
-       )
+       );
      } else if (f === 'forYou') {
        this.api.rejectOther(this.requestsMadeForMe[i]).subscribe(
          response => {
@@ -90,10 +90,10 @@ export class TradeRequestsComponent implements OnInit {
          },
          error => console.log(error),
          () => {
-           console.log('completed')
+           console.log('completed');
            this.getRequests();
          }
-       )
+       );
      }
    }
 }
