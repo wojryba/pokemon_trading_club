@@ -40,4 +40,35 @@ export class ApiService {
     return this.authHttp.post('http://localhost:3000/api/password', data, options);
   }
 
+  addPokemon(pokemon) {
+    const data = JSON.stringify({ pokemon });
+    const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
+    const options = new RequestOptions({ headers: headers});
+
+    return this.authHttp.post('http://localhost:3000/api/addPokemon', data, options);
+  }
+
+  getMyPokemons() {
+    return this.authHttp.get('http://localhost:3000/api/getMyPokemons');
+  }
+
+  deletePokemon(i) {
+    const data = JSON.stringify({ i });
+    const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
+    const options = new RequestOptions({ headers: headers});
+
+    return this.authHttp.post('http://localhost:3000/api/deletePokemon', data, options);
+  }
+
+  getPokemons() {
+    return this.authHttp.get('http://localhost:3000/api/getAll');
+  }
+
+  exchangePokemons(exchange) {
+    const data = JSON.stringify({ exchange });
+    const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
+    const options = new RequestOptions({ headers: headers});
+
+    return this.authHttp.post('http://localhost:3000/api/exchangePokemon', data, options);
+  }
 }

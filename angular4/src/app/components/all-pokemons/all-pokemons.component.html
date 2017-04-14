@@ -1,0 +1,10 @@
+<div class="container">
+  <div>
+    <div *ngFor="let pokemon of pokemons, let i = index">
+      <div *ngFor="let poke of pokemon.pokemons, let j = index">
+        <img src="{{poke.sprites.front_default}}" alt="{{poke.name}}" />
+        <i (click)="exchangePokemon(i, j)" class="fa fa-exchange" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</div>

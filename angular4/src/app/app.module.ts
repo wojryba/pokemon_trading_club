@@ -5,20 +5,22 @@ import { HttpModule, Http, RequestOptions  } from '@angular/http';
 import { RouterModule, Routes} from '@angular/router';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { FlashMessagesModule } from 'angular2-flash-messages';
-
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { AllBooksComponent } from './components/all-books/all-books.component';
-import { MyBooksComponent } from './components/my-books/my-books.component';
+import { AllPokemonsComponent } from './components/all-pokemons/all-pokemons.component';
+import { MyPokemonsComponent } from './components/my-pokemons/my-pokemons.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { ModalWindowComponent } from './components/modal-window/modal-window.component';
 
 
 const appRoutes: Routes = [
@@ -26,8 +28,8 @@ const appRoutes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
-  {path: 'allBooks', component: AllBooksComponent, canActivate: [AuthGuardService]},
-  {path: 'myBooks', component: MyBooksComponent, canActivate: [AuthGuardService]}
+  {path: 'allPokemons', component: AllPokemonsComponent, canActivate: [AuthGuardService]},
+  {path: 'myPokemons', component: MyPokemonsComponent, canActivate: [AuthGuardService]}
 ];
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -42,10 +44,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    AllBooksComponent,
-    MyBooksComponent,
     SettingsComponent,
-    NavbarComponent
+    NavbarComponent,
+    AllPokemonsComponent,
+    MyPokemonsComponent,
+    ModalWindowComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule
+    FlashMessagesModule,
+    ModalModule.forRoot(),
+    BootstrapModalModule
   ],
   providers: [ApiService, AuthService, AuthGuardService,
     {
@@ -61,6 +66,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
        useFactory: authHttpServiceFactory,
        deps: [Http, RequestOptions]
      }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ ModalWindowComponent ]
 })
 export class AppModule { }

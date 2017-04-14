@@ -6,6 +6,8 @@ const jwt = require('express-jwt');
 const passport= require('passport');
 require('dotenv').config();
 const jwt2 = require('jsonwebtoken');
+const Pokedex = require('pokedex-promise-v2');
+const P = new Pokedex();
 
 const authCheck = jwt({
   secret: process.env.SECRET,
@@ -87,6 +89,62 @@ router.post('/password', authCheck, (req, res) => {
     }
 
   });
+})
+
+router.post('/addPokemon', authCheck, (req, res) => {
+  P.getPokemonByName(req.body.pokemon.name).then(pok => {
+    User.findOne({_id: req.user._id}, (err, user) =>{
+      if (err) {
+        console.log(err);
+      }
+      user.pokemons.push(pok);
+      user.save()
+      res.send(user.pokemons);
+    });
+  }).catch( error => {
+      res.send(error);
+    });
+})
+
+router.get('/getMyPokemons', authCheck, (req, res) => {
+  User.findOne({_id: req.user._id}, (err, user) => {
+    if (err) {
+      console.log(err);
+    }
+    res.send(user.pokemons);
+  })
+})
+
+router.post('/deletePokemon', authCheck, (req, res) => {
+  User.findOne({_id: req.user._id}, (err, user) => {
+    if (err) {
+      console.log(err);
+    }
+    user.pokemons.splice(req.body.i, 1);
+    user.save()
+    res.send(user.pokemons);
+  })
+})
+
+router.get('/getAll', authCheck, (req, res) => {
+  User.find({}, (err, users) => {
+    const pokemons = users.map(user => {
+      if (user.pokemons.length > 0)
+      {
+        let p = {};
+        p._id = user._id;
+        p.pokemons = user.pokemons;
+        return p;
+      }
+    });
+
+    res.send(pokemons);
+  })
+})
+
+router.post('/exchangePokemon', authCheck, (req, res) => {
+  console.log(req.body)
+  res.send('be');
 })
 
 

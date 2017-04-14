@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AllBooksComponent } from './all-books.component';
+import { ModalWindowComponent } from './modal-window.component';
 
-describe('AllBooksComponent', () => {
-  let component: AllBooksComponent;
-  let fixture: ComponentFixture<AllBooksComponent>;
+describe('ModalWindowComponent', () => {
+  let component: ModalWindowComponent;
+  let fixture: ComponentFixture<ModalWindowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AllBooksComponent ]
+      declarations: [ ModalWindowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AllBooksComponent);
+    fixture = TestBed.createComponent(ModalWindowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

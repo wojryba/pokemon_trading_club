@@ -35,7 +35,16 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('token', JSON.stringify(token));
         this._flashMessagesService.show('Log in succesfull!', { cssClass: 'alert-success' } );
       },
-      error => console.log(error),
+      error => {
+        let message = JSON.parse(error['_body'])
+        message = message.message;
+        console.log(message);
+        if (message === 'User not found!') {
+          this._flashMessagesService.show('Wrong user name! Maybe you shoulde register?', { cssClass: 'alert-danger' });
+        } else if (message === 'Wrong password!') {
+          this._flashMessagesService.show('Wrong Password!', { cssClass: 'alert-danger' });
+        }
+      },
       () => {
         this.form.reset();
         setTimeout(() => { this.router.navigate(['/settings']); }, 1000);

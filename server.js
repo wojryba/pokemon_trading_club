@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const port = process.env.PORT || 3000;
 
-const connect = process.env.MONGODB_URI || "mongodb://localhost/bookClub"
+const connect = process.env.MONGODB_URI || "mongodb://localhost/pokemonClub"
 
 //plug in promise liblary
 mongoose.Promise = global.Promise;

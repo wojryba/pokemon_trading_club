@@ -1,0 +1,21 @@
+<div class="container">
+  <div>
+    <form novalidate [formGroup]="form" (ngSubmit)="addPokemon(form)">
+      <label>Add a new Pokemon!
+        <input placeholder="Enter Pokemon name!" class="form-control" type="text" formControlName="name" />
+        <p *ngIf="form.get('name').touched && form.get('name').hasError('required')">You must input some Pokemon name!</p>
+      </label>
+      <button class="btn btn-success" [disabled]="form.invalid || disable" type="submit">Add!</button>
+      <flash-messages></flash-messages>
+    </form>
+  </div>
+
+  <div>
+    <div *ngFor="let pokemon of pokemons, let i = index">
+      <div>
+        <img src="{{pokemon.sprites.front_default}}" alt="{{pokemon.name}}" />
+        <i (click)="deletePokemon(i)" class="fa fa-times" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,14 +1,29 @@
-<ul  *ngIf='auth.loggedIn(); else not'>
-  <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">Home</a></li>
-  <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/myBooks']">My Books</a></li>
-  <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/allBooks']">All Books</a></li>
-  <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/settings']">Settings</a></li>
-  <li (click)="logOut()"><a>LogOut</a></li>
-</ul>
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['/']" class="navbar-brand">Pokemon Club!</a>
+    </div>
+
+    <div id="navbar">
+      <ul class="nav navbar-nav navbar-right" *ngIf='auth.loggedIn(); else not'>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">Home</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/myPokemons']">My Pokemons</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/allPokemons']">All Pokemons</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/settings']">Settings</a></li>
+        <li (click)="logOut()"><a>LogOut</a></li>
+      </ul>
+
+        <ng-template #not>
+          <ul class="nav navbar-nav navbar-right">
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">Home</a></li>
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/login']">Login</a></li>
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/register']">Register</a></li>
+          </ul>
+
+        </ng-template>
+    </div>
+
+  </div>
 
 
-  <ng-template #not>
-    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">Home</a></li>
-    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/login']">Login</a></li>
-    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/register']">Register</a></li>
-  </ng-template>
+</nav>

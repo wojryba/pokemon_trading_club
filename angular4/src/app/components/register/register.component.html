@@ -1,35 +1,38 @@
-<div class="form-group" [ngClass]="{'has-error':isError}" >
-  <flash-messages></flash-messages>
-  <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
-    <label class="control-label" for="inputError">Name:
-      <input class="form-control"
-      type="text" formControlName="Name" />
-    </label>
-    <div  *ngIf="form.get('Name').touched">
-      <p *ngIf="form.get('Name').hasError('required')">Name is required!</p>
-      <p *ngIf="form.get('Name').hasError('minlength')">Name needs to be ad least 3 characters long!</p>
-    </div>
+<div class="container">
+  <div class="form-group" [ngClass]="{'has-error':isError}" >
+    <flash-messages></flash-messages>
+    <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
+      <label class="control-label" for="inputError">Name:
+        <input class="form-control"
+        type="text" formControlName="Name" />
+      </label>
+      <div  *ngIf="form.get('Name').touched">
+        <p *ngIf="form.get('Name').hasError('required')">Name is required!</p>
+        <p *ngIf="form.get('Name').hasError('minlength')">Name needs to be ad least 3 characters long!</p>
+      </div>
 
 
-    <label>Email:
-      <input class="form-control"
-      type="text" formControlName="Email" />
-    </label>
+      <label>Email:
+        <input class="form-control"
+        type="text" formControlName="Email" />
+      </label>
 
-    <div  *ngIf="form.get('Email').touched">
-      <p *ngIf="form.get('Email').hasError('required')">Email is required!</p>
-      <p *ngIf="form.get('Email').hasError('email')">Email needs to be a valid email adress!</p>
-    </div>
+      <div  *ngIf="form.get('Email').touched">
+        <p *ngIf="form.get('Email').hasError('required')">Email is required!</p>
+        <p *ngIf="form.get('Email').hasError('email')">Email needs to be a valid email adress!</p>
+      </div>
 
-    <label>Password:
-      <input class="form-control"
-      type="text" formControlName="Password" />
-    </label>
+      <label>Password:
+        <input class="form-control"
+        type="text" formControlName="Password" />
+      </label>
 
-    <div  *ngIf="form.get('Password').touched">
-      <p *ngIf="form.get('Password').hasError('required')">Password is required!</p>
-    </div>
+      <div  *ngIf="form.get('Password').touched">
+        <p *ngIf="form.get('Password').hasError('required')">Password is required!</p>
+      </div>
 
-    <button class="btn btn-primary" [disabled]="form.invalid" type="submit">Register</button>
-  </form>
+      <button class="btn btn-primary" [disabled]="form.invalid" type="submit">Register</button>
+    </form>
+  </div>
+
 </div>
