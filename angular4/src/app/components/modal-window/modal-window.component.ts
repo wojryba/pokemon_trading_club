@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { ApiService } from '../../services/api.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 export class Poke extends BSModalContext {
   constructor(public num1: number, public num2: number) {
@@ -16,6 +18,8 @@ export class Poke extends BSModalContext {
   styleUrls: ['./modal-window.component.css']
 })
 export class ModalWindowComponent implements OnInit {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+
   pokemons: any;
   context: Poke;
 
@@ -28,8 +32,13 @@ export class ModalWindowComponent implements OnInit {
     this.getMyPokemons();
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   getMyPokemons() {
-    this.api.getMyPokemons().subscribe(
+    this.api.getMyPokemons().takeUntil(this.ngUnsubscribe).subscribe(
       response => {
         this.pokemons = JSON.parse(response['_body']);
       },
@@ -45,7 +54,7 @@ export class ModalWindowComponent implements OnInit {
       pokemonName: this.pokemons[i].name,
       pokemonImg: this.pokemons[i].sprites.front_default
     };
-    this.api.exchangePokemons(exchange).subscribe(
+    const sub = this.api.exchangePokemons(exchange).takeUntil(this.ngUnsubscribe).subscribe(
       response => {
         this._flashMessagesService.show('Trade request posted!', { cssClass: 'alert-success' } );
       },

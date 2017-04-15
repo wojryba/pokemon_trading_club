@@ -55,8 +55,7 @@ export class AllPokemonsComponent implements OnInit {
         });
         this.pokemons = poke;
       },
-      error => console.log(error),
-      () => console.log('completed')
+      error => console.log(error)
     );
   }
 

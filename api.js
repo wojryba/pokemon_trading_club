@@ -145,11 +145,7 @@ router.get('/getAll', authCheck, (req, res) => {
         return p;
       }
     });
-    if (pokemons[0] === undefined) {
-      return res.status(404).send('Not found');
-    } else {
-      return res.send(pokemons);
-    }
+    return res.send(pokemons);
   })
 })
 
@@ -171,7 +167,7 @@ router.post('/exchangePokemon', authCheck, (req, res) => {
         }
       });
     } else {
-      return res.send('oops');
+      return res.status(400).send('oops');
     };
   })
 
@@ -190,7 +186,7 @@ router.post('/exchangePokemon', authCheck, (req, res) => {
         }
       });
     } else {
-      return res.send('oops');
+      return res.status(400).send('oops');
     };
   })
 })
@@ -299,59 +295,82 @@ router.post('/rejectOther', authCheck, (req, res) => {
 router.post('/acceptRequest', authCheck, (req, res) => {
   let b = false;
   let poke1;
-  // console.log('user id', req.user._id);
-  // console.log(req.body.request);
+
   User.findOne({_id: req.user._id}, (err, userM) => {
     if (err) {
       console.log(err);
-      return res.send(err);
+      // return res.status(400).send(err);
     }
-    // save pokemon to be addet to other user
-    poke = userM.pokemons[req.body.request.wanted.pokemonIndex];
-    // delete pokemon from current user
 
-    userM.pokemons.splice(req.body.request.wanted.pokemonIndex, 1);
-
-    //remove the request
-    userM.requestsForMe = userM.requestsForMe.filter(val => {
-      if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+    // check if logged user has the requested pokemon
+    let m = userM.pokemons.findIndex(val => {
+      if (val.name == req.body.request.wanted.pokemonName) {
         return val;
       }
     });
+    if (m != -1) {
 
-    // find the other user
-    User.findOne({_id: req.body.request.proposed.user}, (err, userO) => {
-      if (err) {
-        console.log(err);
-        return res.send(err);
-      }
-      // remove the trade request
-      userO.myTradeRequests = userO.myTradeRequests.filter(val => {
-        if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
-          return val;
+      // find the other user
+      User.findOne({_id: req.body.request.proposed.user}, (err, userO) => {
+        if (err) {
+          console.log(err);
+          // return res.send(err);
         }
-      });
 
-      //find and remove pokoemon
-      poke1 = userO.pokemons[req.body.request.proposed.pokemonIndex];
+        // check if the proposing user has the needed pokemon
+        let o = userO.pokemons.findIndex(val => {
+          if (val.name == req.body.request.proposed.pokemonName) {
+            return val;
+          }
+        });
+        if (o != -1) {
 
-      // delet the pokemon from user
-      userO.pokemons.splice([req.body.request.proposed.pokemonIndex], 1);
+          // save pokemon to be addet to other user
+          poke = userM.pokemons[m];
+
+          // delete pokemon from current user
+
+          userM.pokemons.splice(m, 1);
+
+          //remove the request
+          userM.requestsForMe = userM.requestsForMe.filter(val => {
+            if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+              return val;
+            }
+          });
+
+          // remove the trade request
+          userO.myTradeRequests = userO.myTradeRequests.filter(val => {
+            if (JSON.stringify(val) != JSON.stringify(req.body.request)) {
+              return val;
+            }
+          });
+
+          //find and remove pokoemon
+          poke1 = userO.pokemons[o];
+
+          // delet the pokemon from user
+          userO.pokemons.splice([o], 1);
 
 
 
 
-      // add the new pokemon to the other user
-      userO.pokemons.push(poke);
+          // add the new pokemon to the other user
+          userO.pokemons.push(poke);
 
-      // add the traded pokemon to the current user
-      userM.pokemons.push(poke1);
-      userM.save();
-      userO.save().then(() => {
-        res.send('change accepted');
-      });
-
-    })
+          // add the traded pokemon to the current user
+          userM.pokemons.push(poke1);
+          userM.save();
+          userO.save().then(() => {
+            res.send('change accepted');
+          });
+        } else {
+          return res.status(400).send('the other user does not have this pokemon anymore...');
+        }
+      })
+    } else {
+      return res.status(400).send('you dont have the needed pokemon anymore');
+    }
 
   })
 })

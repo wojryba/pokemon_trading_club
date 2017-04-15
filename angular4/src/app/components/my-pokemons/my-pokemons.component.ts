@@ -47,7 +47,6 @@ export class MyPokemonsComponent implements OnInit {
         console.log(this.pokemons.length)
       },
       error => console.log(error),
-      () => console.log('completed')
     );
   }
 
@@ -65,7 +64,6 @@ export class MyPokemonsComponent implements OnInit {
         this.form.reset();
       },
       () => {
-        console.log('completed');
         this.disable = false;
         this.form.reset();
       }
@@ -77,8 +75,7 @@ export class MyPokemonsComponent implements OnInit {
       response => {
         this.pokemons = JSON.parse(response['_body']);
       },
-      error => console.log(error),
-      () => console.log('completed')
+      error => console.log(error)
     );
   }
 

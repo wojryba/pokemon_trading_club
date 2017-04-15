@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-trade-requests',
@@ -34,7 +35,7 @@ export class TradeRequestsComponent implements OnInit {
   myRequests: any;
   requestsMadeForMe: any;
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private _flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
     this.getRequests();
@@ -72,13 +73,21 @@ export class TradeRequestsComponent implements OnInit {
 
    acceptRequest(i) {
      this.api.acceptRequest(this.requestsMadeForMe[i]).subscribe(
-       response => {
+       response => { console.log(response);
          if (response['_body'] === 'change accepted') {
            this.getRequests();
            this.traded.emit('traded');
          }
        },
-       error => console.log(error),
+       error => {
+         this._flashMessagesService.show(error['_body'], { cssClass: 'alert-danger' });
+         this.api.rejectOther(this.requestsMadeForMe[i]).subscribe(
+           response => {
+             this.getRequests();
+           },
+           error => console.log(error)
+         )
+       },
        () => {
         console.log('completed');
        }
@@ -95,21 +104,18 @@ export class TradeRequestsComponent implements OnInit {
          },
          error => console.log(error),
          () => {
-           console.log('completed');
            this.getRequests();
          }
        );
      } else if (f === 'forYou') {
        this.api.rejectOther(this.requestsMadeForMe[i]).subscribe(
          response => {
-           console.log(response['_body']);
            if (response['_body'] === 'request rejected') {
              this.getRequests();
            }
          },
          error => console.log(error),
          () => {
-           console.log('completed');
            this.getRequests();
          }
        );

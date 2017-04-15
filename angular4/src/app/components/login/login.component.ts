@@ -3,7 +3,8 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
-
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit, OnDestroy  {
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private api: ApiService, private router: Router,
@@ -28,11 +30,13 @@ export class LoginComponent implements OnInit, OnDestroy  {
   }
 
   ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 
   onSubmit() {
-    this.api.login(this.form.value).subscribe(
+    this.api.login(this.form.value).takeUntil(this.ngUnsubscribe).subscribe(
       response => {
         let token = JSON.parse(response['_body']);
         token = token.token;
