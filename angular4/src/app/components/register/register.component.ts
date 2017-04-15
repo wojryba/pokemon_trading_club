@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.api.register(this.form.value).subscribe(
       response => {
+        this.form.reset();
         let token = JSON.parse(response['_body']);
         token = token.token;
         localStorage.setItem('token', JSON.stringify(token));
@@ -39,7 +40,6 @@ export class RegisterComponent implements OnInit {
       },
       error => console.log(error),
       () => {
-        this.form.reset();
         setTimeout(() => { this.router.navigate(['/allPokemons']); }, 1000);
       }
     );

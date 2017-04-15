@@ -65,70 +65,70 @@ var ApiService = (function () {
         var data = JSON.stringify({ user: user });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.http.post('api/register', data, options);
+        return this.http.post('/api/register', data, options);
     };
     ApiService.prototype.login = function (user) {
         var data = JSON.stringify({ user: user });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.http.post('api/login', data, options);
+        return this.http.post('/api/login', data, options);
     };
     ApiService.prototype.updateProfile = function (profile) {
         var data = JSON.stringify({ profile: profile });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.authHttp.post('api/profile', data, options);
+        return this.authHttp.post('/api/profile', data, options);
     };
     ApiService.prototype.changePassword = function (pass) {
         var data = JSON.stringify({ pass: pass });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.authHttp.post('api/password', data, options);
+        return this.authHttp.post('/api/password', data, options);
     };
     ApiService.prototype.addPokemon = function (pokemon) {
         var data = JSON.stringify({ pokemon: pokemon });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.authHttp.post('api/addPokemon', data, options);
+        return this.authHttp.post('/api/addPokemon', data, options);
     };
     ApiService.prototype.getMyPokemons = function () {
-        return this.authHttp.get('api/getMyPokemons');
+        return this.authHttp.get('/api/getMyPokemons');
     };
     ApiService.prototype.deletePokemon = function (i) {
         var data = JSON.stringify({ i: i });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.authHttp.post('api/deletePokemon', data, options);
+        return this.authHttp.post('/api/deletePokemon', data, options);
     };
     ApiService.prototype.getPokemons = function () {
-        return this.authHttp.get('api/getAll');
+        return this.authHttp.get('/api/getAll');
     };
     ApiService.prototype.exchangePokemons = function (exchange) {
         var data = JSON.stringify({ exchange: exchange });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.authHttp.post('api/exchangePokemon', data, options);
+        return this.authHttp.post('/api/exchangePokemon', data, options);
     };
     ApiService.prototype.getTradeRequests = function () {
-        return this.authHttp.get('api/getRequests');
+        return this.authHttp.get('/api/getRequests');
     };
     ApiService.prototype.rejectYours = function (request) {
         var data = JSON.stringify({ request: request });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.authHttp.post('api/rejectYours', data, options);
+        return this.authHttp.post('/api/rejectYours', data, options);
     };
     ApiService.prototype.rejectOther = function (request) {
         var data = JSON.stringify({ request: request });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.authHttp.post('api/rejectOther', data, options);
+        return this.authHttp.post('/api/rejectOther', data, options);
     };
     ApiService.prototype.acceptRequest = function (request) {
         var data = JSON.stringify({ request: request });
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]({ 'Content-Type': 'application/json;charset=utf-8' });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]({ headers: headers });
-        return this.authHttp.post('api/acceptRequest', data, options);
+        return this.authHttp.post('/api/acceptRequest', data, options);
     };
     return ApiService;
 }());
@@ -451,6 +451,8 @@ var LoginComponent = (function () {
             Password: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required]
         });
     };
+    LoginComponent.prototype.ngOnDestroy = function () {
+    };
     LoginComponent.prototype.onSubmit = function () {
         var _this = this;
         this.api.login(this.form.value).subscribe(function (response) {
@@ -470,7 +472,7 @@ var LoginComponent = (function () {
             }
         }, function () {
             _this.form.reset();
-            setTimeout(function () { _this.router.navigate(['/allPokemons']); }, 1000);
+            setTimeout(function () { _this.router.navigate(['']); }, 1000);
         });
     };
     return LoginComponent;
@@ -667,12 +669,12 @@ var RegisterComponent = (function () {
     RegisterComponent.prototype.onSubmit = function () {
         var _this = this;
         this.api.register(this.form.value).subscribe(function (response) {
+            _this.form.reset();
             var token = JSON.parse(response['_body']);
             token = token.token;
             localStorage.setItem('token', JSON.stringify(token));
             _this._flashMessagesService.show('Registration succesfull!', { cssClass: 'alert-success' });
         }, function (error) { return console.log(error); }, function () {
-            _this.form.reset();
             setTimeout(function () { _this.router.navigate(['/allPokemons']); }, 1000);
         });
     };
@@ -1050,7 +1052,7 @@ module.exports = "<div class=\"container\">\n  <div>\n    <app-trade-requests (t
 /***/ 214:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"content\">\n    <h2>This site allows you to:</h2>\n    <h4>See all of your pokemons</h4>\n    <h4>See all pokemons of others</h4>\n    <h4>Request to trade pokamon with other user</h4>\n    <h4>Manage requests from your dashboard</h4>\n    <h4>To do all that, you need to register/login first!</h4>\n    <h4>So go ahead and do that!</h4>\n    <h4>Oh.. and you can also chagne your password and some settings!</h4>\n  </div>\n  <div class=\"info\">\n    <img src=\"../../../assets/home.png\" />\n  </div>\n</div>\n"
+module.exports = "<div class=\"container\">\n  <div class=\"content\">\n    <h2>This site allows you to:</h2>\n    <h4>See all of your pokemons</h4>\n    <h4>See all pokemons of others</h4>\n    <h4>Request to trade pokamon with other user</h4>\n    <h4>Manage requests from your dashboard</h4>\n    <h4>To do all that, you need to register/login first!</h4>\n    <h4>So go ahead and do that!</h4>\n    <h4>Oh.. and you can also chagne your password and some settings!</h4>\n  </div>\n  <div class=\"info\">\n    <img src=\"../../../assets/home.jpg\" />\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1078,14 +1080,14 @@ module.exports = "<div class=\"container\">\n  <div>\n    <app-trade-requests (t
 /***/ 218:
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default\">\n  <div class=\"container\">\n    <div class=\"navbar-header\">\n      <a [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\" [routerLink]=\"['/']\" class=\"navbar-brand\">Pokemon Club!</a>\n      \n    </div>\n\n    <div id=\"navbar\">\n      <ul class=\"nav navbar-nav navbar-right\" *ngIf='auth.loggedIn(); else not'>\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/']\">Home</a></li>\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/allPokemons']\">All Pokemons</a></li>\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/myPokemons']\">My Pokemons</a></li>\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/settings']\">Settings</a></li>\n        <li (click)=\"logOut()\"><a>LogOut</a></li>\n      </ul>\n\n        <ng-template #not>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/']\">Home</a></li>\n            <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/login']\">Login</a></li>\n            <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/register']\">Register</a></li>\n          </ul>\n\n        </ng-template>\n    </div>\n\n  </div>\n\n\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-default\">\n  <div class=\"container\">\n    <div class=\"navbar-header\">\n      <a [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\" [routerLink]=\"['/']\" class=\"navbar-brand\">Pokemon Club!</a>\n      <!-- <img [routerLink]=\"['/']\" src=\"http://www.pokestadium.com/sprites/black-white/animated/charmeleon.gif\" /> -->\n    </div>\n\n    <div id=\"navbar\">\n      <ul class=\"nav navbar-nav navbar-right\" *ngIf='auth.loggedIn(); else not'>\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/']\">Home</a></li>\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/allPokemons']\">All Pokemons</a></li>\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/myPokemons']\">My Pokemons</a></li>\n        <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/settings']\">Settings</a></li>\n        <li (click)=\"logOut()\"><a>LogOut</a></li>\n      </ul>\n\n        <ng-template #not>\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/']\">Home</a></li>\n            <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/login']\">Login</a></li>\n            <li [routerLinkActive]=\"['active']\" [routerLinkActiveOptions]=\"{exact: true}\"><a [routerLink]=\"['/register']\">Register</a></li>\n          </ul>\n\n        </ng-template>\n    </div>\n\n  </div>\n\n\n</nav>\n"
 
 /***/ }),
 
 /***/ 219:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div class=\"form-group\" [ngClass]=\"{'has-error':isError}\" >\n    <flash-messages></flash-messages>\n    <form novalidate (ngSubmit)=\"onSubmit(form)\" [formGroup]=\"form\">\n      <label class=\"control-label\">Name:\n        <input class=\"form-control\"\n        type=\"text\" formControlName=\"Name\" />\n        <div  *ngIf=\"form.get('Name').touched\">\n          <p *ngIf=\"form.get('Name').hasError('required')\">Name is required!</p>\n          <p *ngIf=\"form.get('Name').hasError('minlength')\">Name needs to be ad least 3 characters long!</p>\n        </div>\n      </label>\n      <br />\n\n      <label class=\"control-label\">Email:\n        <input class=\"form-control\"\n        type=\"text\" formControlName=\"Email\" />\n        <div  *ngIf=\"form.get('Email').touched\">\n          <p *ngIf=\"form.get('Email').hasError('required')\">Email is required!</p>\n          <p *ngIf=\"form.get('Email').hasError('email')\">Email needs to be a valid email adress!</p>\n        </div>\n      </label>\n      <br />\n\n      <label class=\"control-label\">Password:\n        <input class=\"form-control\"\n        type=\"text\" formControlName=\"Password\" />\n        <div  *ngIf=\"form.get('Password').touched\">\n          <p *ngIf=\"form.get('Password').hasError('required')\">Password is required!</p>\n        </div>\n      </label>\n      <br />\n\n      <button class=\"btn btn-primary\" [disabled]=\"form.invalid\" type=\"submit\">Register</button>\n      <button class=\"btn btn-primary\" [routerLink]=\"['/login']\">Login</button>\n    </form>\n  </div>\n  <div class=\"Hide\">\n    <h1>This is registration form.</h1>\n    <h3>You need to input a name at least 3 characters long,</h3>\n    <h3>A valid email adress,</h3>\n    <h3>And a password.</h3>\n    <br />\n    <h3>If you are registerd already, click the login botton</h3>\n  </div>\n  <img class=\"downImgR\" src=\"../../../assets/register.jpg\" />\n</div>\n"
+module.exports = "<div class=\"container\">\n  <div class=\"form-group\" >\n    <flash-messages></flash-messages>\n    <form novalidate (ngSubmit)=\"onSubmit(form)\" [formGroup]=\"form\">\n      <label class=\"control-label\">Name:\n        <input class=\"form-control\"\n        type=\"text\" formControlName=\"Name\" />\n        <div  *ngIf=\"form.get('Name').touched\">\n          <p *ngIf=\"form.get('Name').hasError('required')\">Name is required!</p>\n          <p *ngIf=\"form.get('Name').hasError('minlength')\">Name needs to be ad least 3 characters long!</p>\n        </div>\n      </label>\n      <br />\n\n      <label class=\"control-label\">Email:\n        <input class=\"form-control\"\n        type=\"text\" formControlName=\"Email\" />\n        <div  *ngIf=\"form.get('Email').touched\">\n          <p *ngIf=\"form.get('Email').hasError('required')\">Email is required!</p>\n          <p *ngIf=\"form.get('Email').hasError('email')\">Email needs to be a valid email adress!</p>\n        </div>\n      </label>\n      <br />\n\n      <label class=\"control-label\">Password:\n        <input class=\"form-control\"\n        type=\"text\" formControlName=\"Password\" />\n        <div  *ngIf=\"form.get('Password').touched\">\n          <p *ngIf=\"form.get('Password').hasError('required')\">Password is required!</p>\n        </div>\n      </label>\n      <br />\n\n      <button class=\"btn btn-primary\" [disabled]=\"form.invalid\" type=\"submit\">Register</button>\n      <button class=\"btn btn-primary\" [routerLink]=\"['/login']\">Login</button>\n    </form>\n  </div>\n  <div class=\"Hide\">\n    <h1>This is registration form.</h1>\n    <h3>You need to input a name at least 3 characters long,</h3>\n    <h3>A valid email adress,</h3>\n    <h3>And a password.</h3>\n    <br />\n    <h3>If you are registerd already, click the login botton</h3>\n  </div>\n  <img class=\"downImgR\" src=\"../../../assets/register.jpg\" />\n</div>\n"
 
 /***/ }),
 

@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="form-group" [ngClass]="{'has-error':isError}" >
+  <div class="form-group" >
     <flash-messages></flash-messages>
     <form novalidate (ngSubmit)="onSubmit(form)" [formGroup]="form">
       <label class="control-label">Name:

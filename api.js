@@ -94,11 +94,15 @@ router.post('/password', authCheck, (req, res) => {
 
 router.post('/addPokemon', authCheck, (req, res) => {
   P.getPokemonByName(req.body.pokemon.name).then(pok => {
+    const pokem = {
+      name: pok.name,
+      sprites: pok.sprites
+    }
     User.findOne({_id: req.user._id}, (err, user) =>{
       if (err) {
         console.log(err);
       }
-      user.pokemons.push(pok);
+      user.pokemons.push(pokem);
       user.save()
       res.send(user.pokemons);
     });

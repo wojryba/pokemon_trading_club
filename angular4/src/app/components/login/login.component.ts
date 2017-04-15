@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy  {
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private api: ApiService, private router: Router,
@@ -26,6 +26,10 @@ export class LoginComponent implements OnInit {
       Password: ['', Validators.required]
     });
   }
+
+  ngOnDestroy() {
+  }
+
 
   onSubmit() {
     this.api.login(this.form.value).subscribe(
@@ -47,7 +51,7 @@ export class LoginComponent implements OnInit {
       },
       () => {
         this.form.reset();
-        setTimeout(() => { this.router.navigate(['/allPokemons']); }, 1000);
+        setTimeout(() => { this.router.navigate(['']); }, 1000);
       }
     );
   }

@@ -13,7 +13,7 @@ export class ApiService {
     const headers = new Headers({'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers });
 
-    return this.http.post('api/register', data, options);
+    return this.http.post('http://localhost:3000/api/register', data, options);
   }
 
   login(user) {
@@ -21,7 +21,7 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.http.post('api/login', data, options);
+    return this.http.post('http://localhost:3000/api/login', data, options);
   }
 
   updateProfile(profile) {
@@ -29,7 +29,7 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.authHttp.post('api/profile', data, options);
+    return this.authHttp.post('http://localhost:3000/api/profile', data, options);
   }
 
   changePassword(pass) {
@@ -37,7 +37,7 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.authHttp.post('api/password', data, options);
+    return this.authHttp.post('http://localhost:3000/api/password', data, options);
   }
 
   addPokemon(pokemon) {
@@ -45,11 +45,11 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.authHttp.post('api/addPokemon', data, options);
+    return this.authHttp.post('http://localhost:3000/api/addPokemon', data, options);
   }
 
   getMyPokemons() {
-    return this.authHttp.get('api/getMyPokemons');
+    return this.authHttp.get('http://localhost:3000/api/getMyPokemons');
   }
 
   deletePokemon(i) {
@@ -57,11 +57,11 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.authHttp.post('api/deletePokemon', data, options);
+    return this.authHttp.post('http://localhost:3000/api/deletePokemon', data, options);
   }
 
   getPokemons() {
-    return this.authHttp.get('api/getAll');
+    return this.authHttp.get('http://localhost:3000/api/getAll');
   }
 
   exchangePokemons(exchange) {
@@ -69,11 +69,11 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.authHttp.post('api/exchangePokemon', data, options);
+    return this.authHttp.post('http://localhost:3000/api/exchangePokemon', data, options);
   }
 
   getTradeRequests() {
-    return this.authHttp.get('api/getRequests');
+    return this.authHttp.get('http://localhost:3000/api/getRequests');
   }
 
   rejectYours(request) {
@@ -81,7 +81,7 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.authHttp.post('api/rejectYours', data, options);
+    return this.authHttp.post('http://localhost:3000/api/rejectYours', data, options);
   }
 
   rejectOther(request) {
@@ -89,7 +89,7 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.authHttp.post('api/rejectOther', data, options);
+    return this.authHttp.post('http://localhost:3000/api/rejectOther', data, options);
   }
 
   acceptRequest(request) {
@@ -97,6 +97,6 @@ export class ApiService {
     const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8'});
     const options = new RequestOptions({ headers: headers});
 
-    return this.authHttp.post('api/acceptRequest', data, options);
+    return this.authHttp.post('http://localhost:3000/api/acceptRequest', data, options);
   }
 }
