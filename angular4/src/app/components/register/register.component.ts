@@ -32,15 +32,19 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.api.register(this.form.value).subscribe(
       response => {
+        console.log('response')
         this.form.reset();
         let token = JSON.parse(response['_body']);
         token = token.token;
         localStorage.setItem('token', JSON.stringify(token));
         this._flashMessagesService.show('Registration succesfull!', { cssClass: 'alert-success' } );
-      },
-      error => console.log(error),
-      () => {
         setTimeout(() => { this.router.navigate(['/allPokemons']); }, 1000);
+      },
+      error => {
+        this._flashMessagesService.show('This email is already taken! Try to log in or use another one!', { cssClass: 'alert-danger' });
+      },
+      () => {
+        console.log('completed')
       }
     );
   }

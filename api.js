@@ -28,19 +28,21 @@ const router = express.Router();
 router.post('/register', (req, res) => {
   let user = new User();
 
+
+
   user.name = req.body.user.Name;
   user.email = req.body.user.Email;
   user.setPassword(req.body.user.Password);
 
 
-  user.save(err => {
+  user.save((err, user) => {
     if (err) {
-      return res.send(err);
+      return res.status(404).send(err);
+    } else {
+      const token = user.generateJWT();
+      const t = {'token': token};
+      return res.send(t);
     }
-  }).then(() => {
-    const token = user.generateJWT();
-    const t = {'token': token};
-    return res.send(t);
   });
 })
 

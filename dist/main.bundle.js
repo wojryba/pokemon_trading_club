@@ -700,13 +700,17 @@ var RegisterComponent = (function () {
     RegisterComponent.prototype.onSubmit = function () {
         var _this = this;
         this.api.register(this.form.value).subscribe(function (response) {
+            console.log('response');
             _this.form.reset();
             var token = JSON.parse(response['_body']);
             token = token.token;
             localStorage.setItem('token', JSON.stringify(token));
             _this._flashMessagesService.show('Registration succesfull!', { cssClass: 'alert-success' });
-        }, function (error) { return console.log(error); }, function () {
             setTimeout(function () { _this.router.navigate(['/allPokemons']); }, 1000);
+        }, function (error) {
+            _this._flashMessagesService.show('This email is already taken! Try to log in or use another one!', { cssClass: 'alert-danger' });
+        }, function () {
+            console.log('completed');
         });
     };
     return RegisterComponent;
