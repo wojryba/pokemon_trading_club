@@ -1,10 +1,30 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-trade-requests',
   templateUrl: './trade-requests.component.html',
-  styleUrls: ['./trade-requests.component.css']
+  styleUrls: ['./trade-requests.component.css'],
+  animations: [
+    // animations for displaing locations
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({transform: 'translateY(-15%)', opacity: 0}),
+          animate('300ms', style({transform: 'translateY(0%)', opacity: 1}))
+        ]),
+      ]
+    ),
+    trigger(
+      'leaveAnimation', [
+        transition(':leave', [
+          style({opacity: 1}),
+          animate('300ms', style({opacity: 0}))
+        ])
+      ]
+    )
+  ]
 })
 export class TradeRequestsComponent implements OnInit {
   @Output () traded: EventEmitter<string> = new EventEmitter();
@@ -24,7 +44,6 @@ export class TradeRequestsComponent implements OnInit {
     this.api.getTradeRequests().subscribe(
       response => {
         const requests = JSON.parse(response['_body']);
-        console.log(requests);
         this.requestsMadeForMe = requests.forMe;
         this.myRequests = requests.my;
       },

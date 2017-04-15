@@ -2,11 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-my-pokemons',
   templateUrl: './my-pokemons.component.html',
-  styleUrls: ['./my-pokemons.component.css']
+  styleUrls: ['./my-pokemons.component.css'],
+  animations: [
+    // animations for displaing locations
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({transform: 'translateY(-20%)', opacity: 0}),
+          animate('500ms', style({transform: 'translateY(0%)', opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({opacity: 1}),
+          animate('500ms', style({opacity: 0}))
+        ])
+      ]
+    )
+  ]
 })
 export class MyPokemonsComponent implements OnInit {
   form: FormGroup;
@@ -25,10 +41,10 @@ export class MyPokemonsComponent implements OnInit {
   }
 
   getMyPokemons() {
-    console.log('traded');
     this.api.getMyPokemons().subscribe(
       response => {
         this.pokemons = JSON.parse(response['_body']);
+        console.log(this.pokemons.length)
       },
       error => console.log(error),
       () => console.log('completed')

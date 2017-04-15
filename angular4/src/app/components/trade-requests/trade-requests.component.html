@@ -1,10 +1,10 @@
 <div class="requests">
-  <button class="btn btn-warning btn-lg" (click)="openYourRequests()">Your trade requests.</button>
-  <button class="btn btn-warning btn-lg" (click)="openRequestsForMe()">Trade requests for you.</button>
-  <div *ngIf="yourRequests">
+  <button class="btn btn-success btn-lg" (click)="openYourRequests()">Your trade requests.</button>
+  <button class="btn btn-success btn-lg" (click)="openRequestsForMe()">Trade requests for you.</button>
+  <div *ngIf="yourRequests" [@enterAnimation]>
     <h1>Requests you made:</h1>
-    <h3 *ngIf="myRequests.length === 0">There are none!</h3>
-    <div *ngFor="let request of myRequests, let i = index">
+    <h3 *ngIf="myRequests.length === 0" >There are none!</h3>
+    <div *ngFor="let request of myRequests, let i = index" [@leaveAnimation]>
       <div class="request">
         <i (click)="rejectRequest(i, 'your')" class="fa fa-times" aria-hidden="true"></i>
         <div class="left">
@@ -22,10 +22,10 @@
       </div>
     </div>
   </div>
-  <div *ngIf="requestsForMe">
+  <div *ngIf="requestsForMe" [@enterAnimation]>
     <h1>Requests made for you:</h1>
     <h3 *ngIf="requestsMadeForMe.length === 0">There are none!</h3>
-    <div *ngFor="let request of requestsMadeForMe, let i = index">
+    <div *ngFor="let request of requestsMadeForMe, let i = index" [@leaveAnimation]>
       <div class="request">
         <i (click)="acceptRequest(i)" class="fa fa-check" aria-hidden="true"></i>
         <i (click)="rejectRequest(i, 'forYou')" class="fa fa-times" aria-hidden="true"></i>

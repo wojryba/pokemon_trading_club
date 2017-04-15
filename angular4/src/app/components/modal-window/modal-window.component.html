@@ -1,8 +1,13 @@
 <div class="bu">
   <div class="modal-header">
+    <i (click)="dialog.close()" class="fa fa-times" aria-hidden="true"></i>
     <h1>Which pokemon you want to trade for?</h1>
+    <flash-messages></flash-messages>
   </div>
-
+  <div *ngIf="pokemons && pokemons.length ==0">
+    <h4><br />You dont have any!<br />Go to My pokemons to add some!</h4>
+    <button class="btn btn-success btn-lg" [routerLink]="['/myPokemons']">My Pokemons!</button>
+  </div>
   <div class="pokemons">
     <div *ngFor="let pokemon of pokemons, let i = index">
       <div class="pokomon">

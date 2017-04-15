@@ -1,14 +1,15 @@
 .requests {
-  border: 1px solid  #ffccb3;
+  border: 1px solid  #0074D9;
   border-radius: 5%;
   padding: 2%;
   width: 80%;
   height: auto;
   margin: auto;
+  transition: 1s ease-in-out;
 }
 
 .request {
-  border: 1px solid  #ffccb3;
+  border: 1px solid  #0074D9;
   border-radius: 5%;
   overflow: hidden;
   width: 80%;
@@ -41,7 +42,7 @@
   .left {
     float: none;
     margin: auto;
-    border-bottom: dotted 1px #ffccb3;
+    border-bottom: dotted 1px #0074D9;
   }
 
   .right {

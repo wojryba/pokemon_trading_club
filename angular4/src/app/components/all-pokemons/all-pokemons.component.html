@@ -3,10 +3,10 @@
     <app-trade-requests (traded)="getPokemons($evet)"></app-trade-requests>
   </div>
   <h1>All of the pokomons (exept yours...):</h1>
-  <div class="pokemons">
-    <div class="pokemonWrapper" *ngFor="let pokemon of pokemons, let i = index">
+  <div class="pokemons" >
+    <div class="pokemonWrapper" *ngFor="let pokemon of pokemons, let i = index" [@enterAnimation]>
       <h4>User: {{pokemon.name}}</h4>
-      <div class="pokemon" *ngFor="let poke of pokemon.pokemons, let j = index">
+      <div class="pokemon" *ngFor="let poke of pokemon.pokemons, let j = index" [@enterAnimation]>
         <i (click)="exchangePokemon(i, j)" class="fa fa-exchange" aria-hidden="true"></i>
         <img src="{{poke.sprites.front_default}}" alt="{{poke.name}}" />
         <h5>{{poke.name}}</h5>

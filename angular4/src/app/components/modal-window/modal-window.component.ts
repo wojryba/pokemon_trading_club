@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { ApiService } from '../../services/api.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 export class Poke extends BSModalContext {
   constructor(public num1: number, public num2: number) {
@@ -18,7 +19,7 @@ export class ModalWindowComponent implements OnInit {
   pokemons: any;
   context: Poke;
 
-  constructor(private api: ApiService,
+  constructor(private api: ApiService, private _flashMessagesService: FlashMessagesService,
   public dialog: DialogRef<Poke>) {
     this.context = dialog.context;
   }
@@ -46,12 +47,11 @@ export class ModalWindowComponent implements OnInit {
     };
     this.api.exchangePokemons(exchange).subscribe(
       response => {
-        console.log(response['_body']);
+        this._flashMessagesService.show('Trade request posted!', { cssClass: 'alert-success' } );
       },
       error => console.log(error),
       () => {
-        console.log('completed');
-        this.dialog.close();
+        setTimeout(() => { this.dialog.close('finished') }, 1000);
       }
     );
   }

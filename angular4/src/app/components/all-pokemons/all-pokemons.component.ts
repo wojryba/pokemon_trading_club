@@ -5,12 +5,24 @@ import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { ModalWindowComponent, Poke } from '../modal-window/modal-window.component';
 import { AuthService } from '../../services/auth.service';
 import { TradeRequestsComponent } from '../trade-requests/trade-requests.component';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
 @Component({
   selector: 'app-all-pokemons',
   templateUrl: './all-pokemons.component.html',
-  styleUrls: ['./all-pokemons.component.css']
+  styleUrls: ['./all-pokemons.component.css'],
+  animations: [
+    // animations for displaing locations
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({transform: 'translateX(-20%)', opacity: 0}),
+          animate('500ms', style({transform: 'translateX(0%)', opacity: 1}))
+        ])
+      ]
+    )
+  ]
 })
 export class AllPokemonsComponent implements OnInit {
   @ViewChild (TradeRequestsComponent)
@@ -60,7 +72,9 @@ export class AllPokemonsComponent implements OnInit {
     localStorage.setItem('exchange', JSON.stringify(exchange));
     this.modal.open(ModalWindowComponent, overlayConfigFactory({ num1: 2, num2: 3 }, BSModalContext)).then(dialog => {
       dialog.onDestroy.subscribe(
-        source => this.TradeComponent.getRequests()
+        source => {
+          this.TradeComponent.getRequests();
+        }
       );
     });
   }

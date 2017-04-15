@@ -8,15 +8,17 @@
         <input placeholder="Enter Pokemon name!" class="form-control" type="text" formControlName="name" />
         <p *ngIf="form.get('name').touched && form.get('name').hasError('required')">You must input some Pokemon name!</p>
       </label>
-      <button class="btn btn-success" [disabled]="form.invalid || disable" type="submit">Add!</button>
+      <br />
+      <button class="btn btn-success btn-lg" [disabled]="form.invalid || disable" type="submit">Add!</button>
       <flash-messages></flash-messages>
     </form>
   </div>
 
   <h1>Your pokemons:</h1>
+  <h4 *ngIf="pokemons && pokemons.length == 0"><span><br /></span>You don't have any!</h4>
   <div class="pokemons">
-    <div *ngFor="let pokemon of pokemons, let i = index">
-      <div class="pokemon">
+    <div *ngFor="let pokemon of pokemons, let i = index" >
+      <div class="pokemon" [@enterAnimation]>
         <i (click)="deletePokemon(i)" class="fa fa-times" aria-hidden="true"></i>
         <img src="{{pokemon.sprites.front_default}}" alt="{{pokemon.name}}" />
         <h5>{{pokemon.name}}</h5>

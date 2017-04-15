@@ -7,6 +7,7 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -22,6 +23,7 @@ import { TradeRequestsComponent } from './components/trade-requests/trade-reques
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
+
 
 
 const appRoutes: Routes = [
@@ -54,13 +56,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule,
     ModalModule.forRoot(),
-    BootstrapModalModule
+    BootstrapModalModule,
   ],
   providers: [ApiService, AuthService, AuthGuardService,
     {
